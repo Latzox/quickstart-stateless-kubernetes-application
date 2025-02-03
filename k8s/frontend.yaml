@@ -14,9 +14,13 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: my-frontend:latest
+        image: latzo.azurecr.io/quickstart-k8s-frontend:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
+        env:
+        - name: API_URL
+          value: "http://backend-service.default.svc.cluster.local/api"
 ---
 apiVersion: v1
 kind: Service
