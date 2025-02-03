@@ -6,12 +6,16 @@ This repository contains code and configuration for a sample stateless applicati
 
 ## Requirements
 
-- NodeJs https://nodejs.org/en/download
 - Docker
 
 ## Create Frontend Service
 
 ```
+cd frontend
+```
+
+```
+docker build -t <your-registry>/quickstart-k8s-frontend:latest .
 ```
 
 ## Create Backend Service
@@ -21,21 +25,14 @@ cd backend
 ```
 
 ```
-docker build -t sample-k8s-backend .
-```
-
-```
-docker run --name backend -p 80:8000 sample-k8s-backend
+docker build -t <your-registry>/quickstart-k8s-backend:latest .
 ```
 
 ## Push Docker Images
 
 ```
-docker tag sample-k8s-backend <your-registry>/sample-k8s-backend:latest
-docker push <your-registry>/sample-k8s-backend:latest
-
-docker tag sample-k8s-frontend <your-registry>/sample-k8s-frontend:latest
-docker push <your-registry>/sample-k8s-frontend:latest
+docker push <your-registry>/quickstart-k8s-backend:latest
+docker push <your-registry>/quickstart-k8s-frontend:latest
 ```
 
 ## Apply Kubernetes Manifests
