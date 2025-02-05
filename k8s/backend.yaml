@@ -14,10 +14,21 @@ spec:
     spec:
       containers:
       - name: backend
-        image: latzo.azurecr.io/quickstart-k8s-backend:latest
+        image: latzo.azurecr.io/quickstart-k8s-backend:1.0.4
         imagePullPolicy: Always
         ports:
         - containerPort: 8000
+        env:
+        - name: BACKEND_MESSAGE
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: BACKEND_MESSAGE
+        - name: NAMESPACE_FILTER
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: NAMESPACE_FILTER
 ---
 apiVersion: v1
 kind: Service
