@@ -4,14 +4,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kubernetes Frontend</title>
+    <title>Kubernetes Cluster Info</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Message from Backend:</h1>
-    <p id="message">Loading...</p>
+    <h2 id="message">Kubernetes Cluster Information</h2>
+
+    <h3>Nodes</h3>
+    <table id="nodeTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h3>Pods</h3>
+    <table id="podTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Namespace</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
 
     <script>
+
         fetch("/api/")
             .then(response => response.json())
             .then(data => {
@@ -19,6 +60,39 @@
             })
             .catch(error => console.error("Error fetching API:", error));
 
+        function fetchClusterInfo() {
+            fetch("/cluster-info")
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert("Error fetching cluster info: " + data.error);
+                        return;
+                    }
+
+                    // Populate Nodes Table
+                    const nodeTable = document.getElementById("nodeTable").getElementsByTagName('tbody')[0];
+                    nodeTable.innerHTML = "";
+                    data.nodes.forEach(node => {
+                        let row = nodeTable.insertRow();
+                        row.insertCell(0).textContent = node.name;
+                        row.insertCell(1).textContent = node.status;
+                    });
+
+                    // Populate Pods Table
+                    const podTable = document.getElementById("podTable").getElementsByTagName('tbody')[0];
+                    podTable.innerHTML = "";
+                    data.pods.forEach(pod => {
+                        let row = podTable.insertRow();
+                        row.insertCell(0).textContent = pod.name;
+                        row.insertCell(1).textContent = pod.namespace;
+                        row.insertCell(2).textContent = pod.status;
+                    });
+                })
+                .catch(error => console.error("Error fetching cluster info:", error));
+        }
+
+        // Fetch cluster info on page load
+        fetchClusterInfo();
     </script>
 </body>
 
