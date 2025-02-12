@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: latzo.azurecr.io/quickstart-k8s-frontend:1.0.4
+          image: latzo.azurecr.io/quickstart-k8s-frontend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80
