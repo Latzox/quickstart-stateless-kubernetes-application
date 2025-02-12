@@ -4,4 +4,3 @@ metadata:
   name: app-config
 data:
   BACKEND_MESSAGE: "Hello Community!"
-  NAMESPACE_FILTER: "default"
