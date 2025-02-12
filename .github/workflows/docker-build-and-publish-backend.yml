@@ -42,7 +42,7 @@ jobs:
 
       - name: Build and Push Docker Image to ACR
         run: |
-          cd app
+          cd backend
           # Build the Docker image with a tag based on the commit SHA
           docker build -t ${{ env.REGISTRY }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }} .
           
