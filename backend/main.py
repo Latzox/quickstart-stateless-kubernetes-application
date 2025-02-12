@@ -12,6 +12,9 @@ REDIS_HOST = os.getenv("REDIS_HOST")
 REDIS_PORT = int(os.getenv("REDIS_PORT"))
 redis_client = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
 
+# Namespace to filter (change this if needed)
+NAMESPACE_FILTER = os.getenv("NAMESPACE_FILTER", "default")
+
 # Read backend message from ConfigMap
 BACKEND_MESSAGE = os.getenv("BACKEND_MESSAGE", "Default backend message")
 
@@ -46,7 +49,7 @@ def cluster_info():
         node_info = [{"name": node.metadata.name, "status": node.status.conditions[-1].type} for node in nodes]
 
         # Get pod info
-        pods = v1.list_namespaced_pod(namespace="default").items
+        pods = v1.list_namespaced_pod(namespace=NAMESPACE_FILTER).items
         pod_info = [{"name": pod.metadata.name, "namespace": pod.metadata.namespace, "status": pod.status.phase} for pod in pods]
 
         cluster_data = {"nodes": node_info, "pods": pod_info}
