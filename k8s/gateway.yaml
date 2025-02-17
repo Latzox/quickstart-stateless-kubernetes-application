@@ -1,0 +1,36 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: api-gateway
+spec:
+  gatewayClassName: nginx
+  listeners:
+    - protocol: HTTP
+      port: 80
+      routes:
+        kind: HTTPRoute
+        selector:
+          matchLabels:
+            gateway: api-gateway
+        rules:
+          - matches:
+              - path:
+                  type: Prefix
+                  value: "/todos"
+            backendRefs:
+              - name: todo-service
+                port: 80
+          - matches:
+              - path:
+                  type: Prefix
+                  value: "/users"
+            backendRefs:
+              - name: user-service
+                port: 80
+          - matches:
+              - path:
+                  type: Prefix
+                  value: "/categories"
+            backendRefs:
+              - name: category-service
+                port: 80
