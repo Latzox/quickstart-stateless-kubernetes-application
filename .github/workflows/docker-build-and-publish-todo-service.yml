@@ -14,7 +14,7 @@ permissions:
 
 env:
   REGISTRY: ${{ secrets.AZURE_ACR_NAME }}
-  IMAGE_NAME: ${{ secrets.DOCKER_IMAGE_NAME_BACKEND_TODO_SERVICE }}
+  IMAGE_NAME: ${{ secrets.DOCKER_IMAGE_NAME_TODO_SERVICE }}
 
 jobs:
   build-and-push:
