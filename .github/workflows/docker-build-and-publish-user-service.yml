@@ -1,4 +1,4 @@
-name: Build and Publish Backend
+name: B&P User Service
 
 run-name: >
   ${{ github.workflow }}: ${{ github.event_name }} for ${{ github.ref_name }} by @${{ github.actor }}
@@ -6,7 +6,7 @@ run-name: >
 on:
   push:
     paths:
-      - 'backend/**'
+      - 'services/user-service/**'
   workflow_dispatch:
 
 permissions: 
@@ -14,7 +14,7 @@ permissions:
 
 env:
   REGISTRY: ${{ secrets.AZURE_ACR_NAME }}
-  IMAGE_NAME: ${{ secrets.DOCKER_IMAGE_NAME_BACKEND }}
+  IMAGE_NAME: ${{ secrets.DOCKER_IMAGE_NAME_USER_SERVICE }}
 
 jobs:
   build-and-push:
@@ -42,7 +42,7 @@ jobs:
 
       - name: Build and Push Docker Image to ACR
         run: |
-          cd backend
+          cd services/user-service
           # Build the Docker image with a tag based on the commit SHA
           docker build -t ${{ env.REGISTRY }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }} .
           
